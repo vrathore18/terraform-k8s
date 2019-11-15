@@ -1,6 +1,4 @@
 resource "kubernetes_service_account" "tiller" {
-  #depends_on = ["module.eks"]
-
   metadata {
     name      = "tiller"
     namespace = "kube-system"
@@ -10,10 +8,8 @@ resource "kubernetes_service_account" "tiller" {
 }
 
 resource "kubernetes_cluster_role_binding" "tiller" {
-  #depends_on = ["module.eks"]
-
   metadata {
-    name = "tiller"
+    name      = "tiller"
   }
 
   role_ref {
@@ -23,10 +19,14 @@ resource "kubernetes_cluster_role_binding" "tiller" {
   }
 
   subject {
-    kind = "ServiceAccount"
-    name = "tiller"
+    kind      = "ServiceAccount"
+    name      = "default"
+    namespace = "kube-system"
+  }
 
-    api_group = ""
+  subject {
+    kind      = "ServiceAccount"
+    name      = "${kubernetes_service_account.tiller.metadata.0.name}"
     namespace = "kube-system"
   }
 }

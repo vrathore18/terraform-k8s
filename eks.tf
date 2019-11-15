@@ -17,11 +17,6 @@ module "eks" {
     },
   ]
 
-  # configure aws-iam-authenticator auth;
-  #
-  # by default only "admin" role from client's AWS account will have
-  # access to the cluster (you'll need to assume that role in order 
-  # interact with the cluster)
   map_accounts = ["${var.target_account_id}"]
 
   map_roles = [
@@ -32,9 +27,6 @@ module "eks" {
     },
   ]
 
-  # This need to be set  as weel as the map acccounts and map roles are not
-  # Terraform is not able to see through variables changes
-  # You may also comment those to be ablse to get acces to the cluster withtout specify any role or account
   map_accounts_count = "1"
   map_roles_count    = "1"
 
@@ -42,7 +34,7 @@ module "eks" {
   write_kubeconfig      = "false"
 
   # You need to write an aws_auth_config to let your nodes join the cluster !
-  write_aws_auth_config = "false"
+  write_aws_auth_config = "true"
 }
 
 resource "local_file" "kubeconfig" {
