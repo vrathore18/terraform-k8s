@@ -32,11 +32,16 @@ module "eks" {
     },
   ]
 
-  #map_accounts_count = "1"
-  #map_roles_count    = "1"
+  # This need to be set  as weel as the map acccounts and map roles are not
+  # Terraform is not able to see through variables changes
+  # You may also comment those to be ablse to get acces to the cluster withtout specify any role or account
+  map_accounts_count = "1"
+  map_roles_count    = "1"
 
   # don't write local configs, as we do it anyway
   write_kubeconfig      = "false"
+
+  # You need to write an aws_auth_config to let your nodes join the cluster !
   write_aws_auth_config = "false"
 }
 
