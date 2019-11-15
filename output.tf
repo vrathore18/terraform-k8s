@@ -1,5 +1,5 @@
 output "documentdb_host" {
-  value = "${aws_docdb_cluster.superdrafter.endpoint}"
+  value = "${aws_docdb_cluster.super.endpoint}"
 }
 
 output "documentdb_password" {
@@ -7,7 +7,7 @@ output "documentdb_password" {
 }
 
 output "elasticache_host" {
-  value = "${aws_elasticache_cluster.superdrafter.cache_nodes}"
+  value = "${aws_elasticache_cluster.super.cache_nodes}"
 }
 
 output "s3_bucket_documents" {
@@ -43,5 +43,5 @@ output "route53_domain_nameservers" {
 }
 
 output "acm_certificate_arn" {
-  value = "${aws_acm_certificate.superdrafter.arn}"
+  value = "${aws_acm_certificate.super.arn}"
 }

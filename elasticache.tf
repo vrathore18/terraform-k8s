@@ -3,13 +3,13 @@ resource "aws_elasticache_subnet_group" "default" {
   subnet_ids = ["${module.vpc.private_subnets}"]
 }
 
-resource "aws_security_group" "superdrafter_elasticache" {
-  name_prefix = "superdrafter-elasticache-"
+resource "aws_security_group" "super_elasticache" {
+  name_prefix = "super-elasticache-"
   vpc_id      = "${module.vpc.vpc_id}"
 }
 
-resource "aws_security_group_rule" "superdrafter_elasticache_ingress" {
-  security_group_id = "${aws_security_group.superdrafter_elasticache.id}"
+resource "aws_security_group_rule" "super_elasticache_ingress" {
+  security_group_id = "${aws_security_group.super_elasticache.id}"
 
   type                     = "ingress"
   from_port                = 6379
@@ -18,8 +18,8 @@ resource "aws_security_group_rule" "superdrafter_elasticache_ingress" {
   source_security_group_id = "${module.eks.worker_security_group_id}"
 }
 
-resource "aws_security_group_rule" "superdrafter_elasticache_egress" {
-  security_group_id = "${aws_security_group.superdrafter_elasticache.id}"
+resource "aws_security_group_rule" "super_elasticache_egress" {
+  security_group_id = "${aws_security_group.super_elasticache.id}"
 
   type                     = "ingress"
   from_port                = 0
@@ -28,7 +28,7 @@ resource "aws_security_group_rule" "superdrafter_elasticache_egress" {
   cidr_blocks              = ["0.0.0.0/0"]
 }
 
-resource "aws_elasticache_cluster" "superdrafter" {
+resource "aws_elasticache_cluster" "super" {
   cluster_id           = "${var.name}"
   engine               = "redis"
   node_type            = "${var.elasticcache_instance_type}"
@@ -36,5 +36,5 @@ resource "aws_elasticache_cluster" "superdrafter" {
   parameter_group_name = "default.redis5.0"
   engine_version       = "5.0.3"
   subnet_group_name    = "${aws_elasticache_subnet_group.default.name}"
-  security_group_ids   = ["${aws_security_group.superdrafter_elasticache.id}"]
+  security_group_ids   = ["${aws_security_group.super_elasticache.id}"]
 }
